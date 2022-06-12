@@ -108,7 +108,7 @@ fi
 
 # Install required packages
 print_info "Installing required packages.."
-$pkgm install libcurl jq tar
+$m_sudo $pkgm install libcurl jq tar
 print_success "Packages installed"
 echo ""
 
