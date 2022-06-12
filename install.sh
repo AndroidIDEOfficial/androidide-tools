@@ -106,6 +106,12 @@ if [ ! -f $install_dir ]; then
     mkdir -p $install_dir
 fi
 
+# Install required packages
+print_info "Installing required packages.."
+$pkgm install libcurl jq tar
+print_success "Packages installed"
+echo ""
+
 # Download the manifest.json file
 print_info "Downloading manifest file..."
 downloaded_manifest="$install_dir/manifest.json"
