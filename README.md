@@ -1,8 +1,8 @@
-# Android SDKs for [AndroidIDE](https://github.com/itsaky/AndroidIDE).
+# Build Tools for [AndroidIDE](https://github.com/itsaky/AndroidIDE).
 
-This repository includes Android SDK and tools that can be used with AndroidIDE.
+This repository includes JDK 11, Android SDK and tools that can be used with AndroidIDE.
 
-Included tools are :
+Tools included in Android SDK are :
 - Build tools
   - aapt
   - aapt2
