@@ -23,4 +23,8 @@ Included tools are :
   - sload_f2fs
   - sqlite3
 
-Special thanks to @Lzhiyong for [sdk-tools](https://github.com/Lzhiyong/sdk-tools).
+## Download
+Download from [Releases](https://github.com/itsaky/androidide-sdk/releases).
+
+## Thanks to
+@Lzhiyong for [sdk-tools](https://github.com/Lzhiyong/sdk-tools).
