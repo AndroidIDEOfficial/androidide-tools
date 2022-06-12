@@ -43,6 +43,7 @@ print_help() {
     echo "-a   CPU architecture. Extracted using 'uname -i' by default."
     echo "-p   Package manager. Defaults to 'pkg'."
     echo "-u   Use sudo whenever necessary [sudo]. Not specified by default."
+    echo "-l   Name of curl package that will be installed before starting installation process. Defaults to 'libcurl'."
     echo ""
     echo "-h   Prints this message."
 }
@@ -55,9 +56,10 @@ jdk_version=17
 manifest="https://raw.githubusercontent.com/itsaky/androidide-build-tools/main/manifest.json"
 pkgm="pkg"
 m_sudo=""
+pkg_curl="libcurl"
 
 OPTIND=1
-while getopts "uch?i:s:j:m:a:p:" opt; do
+while getopts "uch?i:s:j:m:a:p:l:" opt; do
   case "$opt" in
     h|\?)
       print_help
@@ -78,6 +80,8 @@ while getopts "uch?i:s:j:m:a:p:" opt; do
     p) pkgm=$OPTARG
       ;;
     u) m_sudo="sudo"
+      ;;
+    l) pkg_curl=$OPTARG
       ;;
   esac
 done
@@ -108,7 +112,7 @@ fi
 
 # Install required packages
 print_info "Installing required packages.."
-$m_sudo $pkgm install libcurl jq tar
+$m_sudo $pkgm install $pkg_curl jq tar
 print_success "Packages installed"
 echo ""
 
