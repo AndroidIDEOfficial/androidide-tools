@@ -37,7 +37,7 @@ chmod +x ./install.sh
 - Start the installation process by executing the script with : `./install.sh`
 - After you execute the script, it'll show a summary of the configuration. Type `y` to confirm the configuration and start the installation process.
 
-Once the installation is finished, the `ide-environment.properties` file will also be updated. If the file already exists, you'll be asked to confirm the 
+Once the installation is finished, the `ide-environment.properties` file will also be updated. If the file already exists, you'll be asked to confirm if you want to rewrite the properties file.
 
 The default configuration is enough for most users. If you want to configure the installation process (like downloading JDK 11 instead of the default JDK 17), you can do so by using the options provided by the script.
 
