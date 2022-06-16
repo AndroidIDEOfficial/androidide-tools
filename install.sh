@@ -48,7 +48,7 @@ print_help() {
     echo "-h   Prints this message."
 }
 
-arch=$(uname -i)
+arch=$(uname -m)
 install_dir=$HOME
 sdk_version=33.0.1
 with_cmdline=false
