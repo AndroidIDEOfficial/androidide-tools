@@ -235,7 +235,7 @@ if [ $jdk_version = "11" ] && [ ! -d $jdk_dir ]; then
     exit 1
 fi
 
-if [ $jdk_dir = "17" ]; then
+if [ $jdk_version = "17" ]; then
     jdk_dir="$SYSROOT/opt/openjdk"
 fi
 
