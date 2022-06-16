@@ -48,6 +48,63 @@ print_help() {
     echo "-h   Prints this message."
 }
 
+download_and_extract() {
+    # Display name to use in print messages
+    name=$1
+
+    # URL to download from
+    url=$2
+
+    # Directory in which the downloaded archive will be extracted
+    dir=$3
+
+    # Destination path for downloading the file
+    dest=$4
+
+    if [ ! -d $dir ]; then
+        mkdir -p $dir
+    fi
+
+    cd $dir
+
+    do_download=true
+    if [ -f $dest ]; then
+        name=$(basename $dest)
+        print_info "File ${name} already exists."
+        printf "Do you want to skip the download process? ([y]es/[n]o): "
+        read skip
+        if [[ "$skip" = "yes" || "$skip" = "y" ]]; then
+            do_download=false
+        fi
+        echo ""
+    fi
+
+    if [ "$do_download" = "true" ]; then
+        print_info "Downloading $name..."
+        curl -L -o $dest $url
+        print_success "$name has been downloaded."
+        echo ""
+    fi
+
+    if [ ! -f $dest ]; then
+        print_err "The downloaded file $name does not exist. Cannot proceed..."
+        exit 1
+    fi
+
+    # Extract the downloaded archive
+    print_info "Extracting downloaded archive..."
+    tar xvJf $dest
+    print_info "Extracted successfully"
+
+    echo ""
+
+    # Delete the downloaded file
+    rm -vf $dest
+
+    # cd into the previous working directory
+    cd -
+}
+
 arch=$(uname -m)
 install_dir=$HOME
 sdk_version=33.0.1
@@ -127,48 +184,17 @@ echo ""
 print_info "Extracting Android SDK URL from manifest..."
 sdk_obj=$(jq ".android_sdk | .${sdk_version} | .${arch}" $downloaded_manifest)
 sdk_url=$(echo $sdk_obj | jq -r ".sdk")
-if [ "$with_cmdline" = true ]; then
-    sdk_url=$(echo $sdk_obj | jq -r ".sdk_with_cmdline")
-fi
 print_success "Found SDK URL: $sdk_url"
 echo ""
 
-# Check if android sdk has already been downloaded
-downloaded_sdk="$install_dir/android-sdk.tar.xz"
-use_downloaded=false
-if [ -f $downloaded_sdk ]; then
-    echo "Looks like the Android SDK has already been downloaded."
-    printf "Would you like to use the already downloaded SDK? Downloaded SDK will be DELETED if you select 'no'. (y/n): "
-    read ans
-    if [[ "$ans" = "yes" || "$ans" = "y" ]]; then
-        use_downloaded=true
-    fi
-    echo ""
+# Download and extract the Android SDK
+download_and_extract "Android SDK" $sdk_url $install_dir "$install_dir/android-sdk.tar.xz"
+
+if [ "$with_cmdline" = true ]; then
+    # Download and extract the Command Line tools
+    cmdline_url=$(jq -r ".android_sdk | .cmdline_tools" $downloaded_manifest)
+    download_and_extract "Command line tools" $cmdline_url "$install_dir/android-sdk" "$install_dir/cmdline_tools.tar.xz"
 fi
-
-if [ ! "$use_downloaded" = "true" ]; then
-    if [ -f $downloaded_sdk ]; then
-        rm -vf $downloaded_sdk
-    fi
-
-    # Download the Android SDK
-    print_info "Downloading Android SDK..."
-    curl -L -o $downloaded_sdk $sdk_url
-    print_success "Android SDK has been downloaded."
-    echo ""
-fi
-
-if [ ! -f $downloaded_sdk ]; then
-    print_err "Downloaded SDK does not exist."
-    exit 1
-fi
-
-print_info "Extracting SDK..."
-cd $install_dir
-tar xvJf $(basename $downloaded_sdk)
-cd -
-print_success "SDK extracted successfully!"
-echo ""
 
 # Check JDK version to download and install
 root_folder=$(jq -r ".jdk_11.root_folder?" $downloaded_manifest)
@@ -188,42 +214,7 @@ else
     print_success "Found JDK URL: $jdk_url"
     echo ""
 
-    downloaded_jdk="$install_dir/jdk11.tar.xz"
-    use_downloaded=false
-
-    if [ -f "$downloaded_jdk" ]; then
-        echo "Looks like the JDK has already been downloaded."
-        printf "Would you like to use the already downloaded JDK? Downloaded JDK will be DELETED if you select 'no'. (y/n): "
-        read ans
-        if [[ "$ans" = "yes" || "$ans" = "y" ]]; then
-            use_downloaded=true
-        fi
-    echo ""
-    fi
-
-    if [ ! "$use_downloaded" = "true" ]; then
-        if [ -f $downloaded_jdk ]; then
-            rm -vf $downloaded_jdk
-        fi
-
-        # Download the JDK
-        print_info "Downloading JDK 11..."
-        curl -L -o $downloaded_jdk $jdk_url
-        print_success "JDK has been downloaded."
-        echo ""
-    fi
-
-    if [ ! -f $downloaded_jdk ]; then
-        print_err "Downloaded JDK does not exist."
-        exit 1
-    fi
-
-    print_info "Extracting JDK..."
-    cd $install_dir
-    tar xvJf $(basename $downloaded_jdk)
-    cd -
-    print_success "JDK extracted successfully!"
-    echo ""
+    download_and_extract "JDK 11" $jdk_url $install_dir "$install_dir/jdk11.tar.xz"
 fi
 
 jdk_dir=$(realpath "$install_dir/jdk")
