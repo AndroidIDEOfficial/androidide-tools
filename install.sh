@@ -40,7 +40,7 @@ print_help() {
     echo "-m   Manifest file URL. Defaults to 'manifest.json' in 'androidide-build-tools' GitHub repository."
     echo ""
     echo "For testing purposes:"
-    echo "-a   CPU architecture. Extracted using 'uname -i' by default."
+    echo "-a   CPU architecture. Extracted using 'uname -m' by default."
     echo "-p   Package manager. Defaults to 'pkg'."
     echo "-u   Use sudo whenever necessary [sudo]. Not specified by default."
     echo "-l   Name of curl package that will be installed before starting installation process. Defaults to 'libcurl'."
@@ -145,6 +145,11 @@ done
 
 shift $((OPTIND-1))
 [ "${1:-}" = "--" ] && shift
+
+# 64-bit CPU in 32-bit mode
+if [ "$arch" = "armv8l" ]; then
+    arch="arm"
+fi
 
 sdk_version="_${sdk_version//'.'/'_'}"
 
