@@ -16,9 +16,8 @@ Options :
 -m   Manifest file URL. Defaults to 'manifest.json' in 'androidide-build-tools' GitHub repository.
 
 For testing purposes:
--a   CPU architecture. Extracted using 'uname -i' by default.
+-a   CPU architecture. Extracted using 'uname -m' by default.
 -p   Package manager. Defaults to 'pkg'.
--u   Use sudo whenever necessary [sudo]. Not specified by default.
 -l   Name of curl package that will be installed before starting installation process. Defaults to 'libcurl'.
 
 -h   Prints this message.
