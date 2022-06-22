@@ -6,7 +6,7 @@
             },
 
             "arm": {
-                "sdk": "https://github.com/itsaky/androidide-build-tools/releases/download/v33.0.1/android-arm-33.0.1-aarch64.tar.xz"
+                "sdk": "https://github.com/itsaky/androidide-build-tools/releases/download/v33.0.1/android-sdk-33.0.1-arm.tar.xz"
             }
         }, 
         
