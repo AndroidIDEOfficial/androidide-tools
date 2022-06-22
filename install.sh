@@ -42,7 +42,6 @@ print_help() {
     echo "For testing purposes:"
     echo "-a   CPU architecture. Extracted using 'uname -m' by default."
     echo "-p   Package manager. Defaults to 'pkg'."
-    echo "-u   Use sudo whenever necessary [sudo]. Not specified by default."
     echo "-l   Name of curl package that will be installed before starting installation process. Defaults to 'libcurl'."
     echo ""
     echo "-h   Prints this message."
@@ -112,7 +111,6 @@ with_cmdline=false
 jdk_version=17
 manifest="https://raw.githubusercontent.com/itsaky/androidide-build-tools/main/manifest.json"
 pkgm="pkg"
-m_sudo=""
 pkg_curl="libcurl"
 
 OPTIND=1
@@ -135,8 +133,6 @@ while getopts "uch?i:s:j:m:a:p:l:" opt; do
     a) arch=$OPTARG
       ;;
     p) pkgm=$OPTARG
-      ;;
-    u) m_sudo="sudo"
       ;;
     l) pkg_curl=$OPTARG
       ;;
@@ -174,7 +170,7 @@ fi
 
 # Install required packages
 print_info "Installing required packages.."
-$m_sudo $pkgm install $pkg_curl jq tar
+$pkgm install $pkg_curl jq tar
 print_success "Packages installed"
 echo ""
 
@@ -211,7 +207,7 @@ if [ "$jdk_version" = "17" ]; then
     fi
 
     print_info "Installing package: 'openjdk-17'"
-    $m_sudo $pkgm install openjdk-17
+    $pkgm install openjdk-17
     print_info "JDK 17 has been installed."
 else
     print_info "Extracting JDK 11 download URL..."
@@ -242,17 +238,17 @@ props_dir="$SYSROOT/etc"
 props="$props_dir/ide-environment.properties"
 
 if [ ! -d $props_dir ]; then
-    $m_sudo mkdir -p $props_dir
+    mkdir -p $props_dir
 fi
 
 if [ ! -e $props ]; then
-    $m_sudo printf "JAVA_HOME=$jdk_dir" > $props
+    printf "JAVA_HOME=$jdk_dir" > $props
     print_success "Properties file updated successfully!"
 else
     printf "$props file already exists. Would you like to overwrite it? (y/n):"
     read ans
     if [[ "$ans" = "yes" || "$ans" = "y" ]]; then
-        $m_sudo printf "JAVA_HOME=$jdk_dir" > $props
+        printf "JAVA_HOME=$jdk_dir" > $props
         print_success "Properties file updated successfully!"
     else
         print_err "Manually edit $SYSROOT/etc/ide-environment.properties file and set JAVA_HOME and ANDROID_SDK_ROOT."
