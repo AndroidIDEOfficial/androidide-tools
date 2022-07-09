@@ -142,6 +142,8 @@ done
 shift $((OPTIND-1))
 [ "${1:-}" = "--" ] && shift
 
+if [ "$arch" = "armv7l" ]; then
+    arch="arm"
 # 64-bit CPU in 32-bit mode
 if [ "$arch" = "armv8l" ]; then
     arch="arm"
