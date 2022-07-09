@@ -144,6 +144,7 @@ shift $((OPTIND-1))
 
 if [ "$arch" = "armv7l" ]; then
     arch="arm"
+fi
 # 64-bit CPU in 32-bit mode
 if [ "$arch" = "armv8l" ]; then
     arch="arm"
