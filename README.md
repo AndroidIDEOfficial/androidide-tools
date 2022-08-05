@@ -1,4 +1,6 @@
 # Build Tools for [AndroidIDE](https://github.com/itsaky/AndroidIDE).
+<a href="https://github.com/itsaky/AndroidIDE"><img src="https://androidide.com/github/img/androidide.php?part&for-the-badge"/></a><br>
+
 This repository includes JDK 11, Android SDK and tools for AndroidIDE. An installation script is also available which you can use to easily install the tools.
 ```
 AndroidIDE build tools installer
