@@ -109,7 +109,7 @@ install_dir=$HOME
 sdk_version=33.0.1
 with_cmdline=false
 jdk_version=17
-manifest="https://raw.githubusercontent.com/itsaky/androidide-build-tools/main/manifest.json"
+manifest="https://raw.githubusercontent.com/AndroidIDEOfficial/androidide-build-tools/main/manifest.json"
 pkgm="pkg"
 pkg_curl="libcurl"
 

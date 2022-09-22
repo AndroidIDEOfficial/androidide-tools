@@ -1,5 +1,5 @@
-# Build Tools for [AndroidIDE](https://github.com/itsaky/AndroidIDE).
-<a href="https://github.com/itsaky/AndroidIDE"><img src="https://androidide.com/github/img/androidide.php?part&for-the-badge"/></a><br>
+# Build Tools for [AndroidIDE](https://github.com/AndroidIDEOfficial/AndroidIDE).
+<a href="https://github.com/AndroidIDEOfficial/AndroidIDE"><img src="https://androidide.com/github/img/androidide.php?part&for-the-badge"/></a><br>
 
 This repository includes JDK 11, Android SDK and tools for AndroidIDE. An installation script is also available which you can use to easily install the tools.
 ```
@@ -29,7 +29,7 @@ For testing purposes:
 - Open the AndroidIDE terminal.
 - Get the installation script with :
 ```bash
-wget https://raw.githubusercontent.com/itsaky/androidide-build-tools/main/install.sh
+wget https://raw.githubusercontent.com/AndroidIDEOfficial/androidide-build-tools/main/install.sh
 ```
 - Give executable permissions to the installation script with:
 ```bash
@@ -45,7 +45,7 @@ The default configuration is enough for most users. If you want to configure the
 Execute the script with `-h` option to see a list of options that you can use.
 
 ## Download
-You can manually download and install these tools from [Releases](https://github.com/itsaky/androidide-sdk/releases).
+You can manually download and install these tools from [Releases](https://github.com/AndroidIDEOfficial/androidide-sdk/releases).
 
 ## Thanks to
 - @Lzhiyong for [sdk-tools](https://github.com/Lzhiyong/sdk-tools).
