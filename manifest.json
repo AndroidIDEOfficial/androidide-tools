@@ -2,19 +2,19 @@
     "android_sdk": {
         "_33_0_1": {
             "aarch64": {
-                "sdk": "https://github.com/itsaky/androidide-build-tools/releases/download/v33.0.1/android-sdk-33.0.1-aarch64.tar.xz"
+                "sdk": "https://github.com/AndroidIDEOfficial/androidide-build-tools/releases/download/v33.0.1/android-sdk-33.0.1-aarch64.tar.xz"
             },
 
             "arm": {
-                "sdk": "https://github.com/itsaky/androidide-build-tools/releases/download/v33.0.1/android-sdk-33.0.1-arm.tar.xz"
+                "sdk": "https://github.com/AndroidIDEOfficial/androidide-build-tools/releases/download/v33.0.1/android-sdk-33.0.1-arm.tar.xz"
             }
         }, 
         
-        "cmdline_tools": "https://github.com/itsaky/androidide-build-tools/releases/download/v33.0.1/cmdline-tools-all.tar.xz"
+        "cmdline_tools": "https://github.com/AndroidIDEOfficial/androidide-build-tools/releases/download/v33.0.1/cmdline-tools-all.tar.xz"
     }, 
 
     "jdk_11": {
-        "aarch64": "https://github.com/itsaky/androidide-build-tools/releases/download/jdk-11/jdk11-aarch64.tar.xz",
-        "arm": "https://github.com/itsaky/androidide-build-tools/releases/download/jdk-11/jdk11-arm.tar.xz"
+        "aarch64": "https://github.com/AndroidIDEOfficial/androidide-build-tools/releases/download/jdk-11/jdk11-aarch64.tar.xz",
+        "arm": "https://github.com/AndroidIDEOfficial/androidide-build-tools/releases/download/jdk-11/jdk11-arm.tar.xz"
     }
 }
