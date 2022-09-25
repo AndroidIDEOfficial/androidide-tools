@@ -12,6 +12,8 @@ Purple='\033[0;35m'
 Cyan='\033[0;36m'
 White='\033[0;37m'
 
+yes='^(y|Y|yes|Yes)$'
+
 print_info() {
     printf "${Blue}$1$Color_Off\n"
 }
@@ -72,7 +74,7 @@ download_and_extract() {
         print_info "File ${name} already exists."
         printf "Do you want to skip the download process? ([y]es/[n]o): "
         read skip
-        if [[ "$skip" = "yes" || "$skip" = "y" ]]; then
+        if [[ $skip =~ $yes ]]; then
             do_download=false
         fi
         echo ""
@@ -161,14 +163,19 @@ echo "------------------------------------------"
 printf "Confirm configuration ([y]es/n[o]): "
 read correct
 
-if ! ([[ "$correct" = "yes" || "$correct" = "y" ]]); then
-    print_err "Aborting."
+if ! [[ $correct =~ $yes ]]; then
+    print_err "Aborting..."
     exit 1
 fi
 
 if [ ! -f $install_dir ]; then
     print_info "Installation directory does not exist. Creating directory..."
     mkdir -p $install_dir
+fi
+
+if [ ! command -v $pkgm &> /dev/null ]; then
+    print_err "'$pkgm' command not found. Try installing 'termux-tools' and 'apt'."
+    exit 1
 fi
 
 # Install required packages
@@ -204,11 +211,6 @@ fi
 root_folder=$(jq -r ".jdk_11.root_folder?" $downloaded_manifest)
 if [ "$jdk_version" = "17" ]; then
     # Install JDK 17
-    if [ ! command -v $pkgm &> /dev/null ]; then
-        print_err "'$pkgm' command not found. Try installing 'termux-tools' and 'apt'."
-        exit 1
-    fi
-
     print_info "Installing package: 'openjdk-17'"
     $pkgm install openjdk-17
     print_info "JDK 17 has been installed."
@@ -250,10 +252,13 @@ if [ ! -e $props ]; then
 else
     printf "$props file already exists. Would you like to overwrite it? (y/n):"
     read ans
-    if [[ "$ans" = "yes" || "$ans" = "y" ]]; then
+    if [[ $ans =~ $yes ]]; then
         printf "JAVA_HOME=$jdk_dir" > $props
         print_success "Properties file updated successfully!"
     else
         print_err "Manually edit $SYSROOT/etc/ide-environment.properties file and set JAVA_HOME and ANDROID_SDK_ROOT."
     fi
 fi
+
+rm -vf $0 $downloaded_manifest
+print_success "Downloads completed. You are ready to go!"
