@@ -45,7 +45,7 @@ The default configuration is enough for most users. If you want to configure the
 Execute the script with `-h` option to see a list of options that you can use.
 
 ## Download
-You can manually download and install these tools from [Releases](https://github.com/AndroidIDEOfficial/androidide-sdk/releases).
+You can manually download and install these tools from [Releases](https://github.com/AndroidIDEOfficial/androidide-build-tools/releases).
 
 ## Thanks to
 - @Lzhiyong for [sdk-tools](https://github.com/Lzhiyong/sdk-tools).
