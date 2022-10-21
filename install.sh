@@ -154,6 +154,12 @@ fi
 
 sdk_version="_${sdk_version//'.'/'_'}"
 
+print_err "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+print_err "This script is deprecated and not updated anymore"
+print_err "Please use 'idesetup' to do the installation     "
+print_err "This will be removed in future                   "
+print_err "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
 echo "------------------------------------------"
 echo "Installation directory    : ${install_dir}"
 echo "SDK version               : ${sdk_version}"
