@@ -29,7 +29,7 @@ For testing purposes:
 - Open the AndroidIDE terminal.
 - Get the installation script with :
 ```bash
-wget https://raw.githubusercontent.com/AndroidIDEOfficial/androidide-build-tools/main/idesetup
+wget https://raw.githubusercontent.com/AndroidIDEOfficial/androidide-build-tools/main/scripts/idesetup
 ```
 - Give executable permissions to the installation script with:
 ```bash
