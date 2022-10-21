@@ -39,7 +39,7 @@ print_help() {
     echo "-s   Android SDK version to download."
     echo "-c   Download Android SDK with command line tools."
     echo "-j   Choose whether to install JDK 11 or JDK 17. Please note that JDK 17 must be preferred. This option will be removed in future."
-    echo "-m   Manifest file URL. Defaults to 'manifest.json' in 'androidide-build-tools' GitHub repository."
+    echo "-m   Manifest file URL. Defaults to 'manifest.json' in 'androidide-tools' GitHub repository."
     echo ""
     echo "For testing purposes:"
     echo "-a   CPU architecture. Extracted using 'uname -m' by default."
@@ -111,7 +111,7 @@ install_dir=$HOME
 sdk_version=33.0.1
 with_cmdline=false
 jdk_version=17
-manifest="https://raw.githubusercontent.com/AndroidIDEOfficial/androidide-build-tools/main/manifest.json"
+manifest="https://raw.githubusercontent.com/AndroidIDEOfficial/androidide-tools/main/manifest.json"
 pkgm="pkg"
 pkg_curl="libcurl"
 
