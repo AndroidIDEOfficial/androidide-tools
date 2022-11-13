@@ -106,9 +106,25 @@ download_and_extract() {
     cd -
 }
 
+download_comp() {
+    nm=$1
+    jq_query=$2
+    mdir=$3
+    dname=$4
+
+    # Extract the Android SDK URL
+    print_info "Extracting URL for $nm from manifest..."
+    url=$(jq -r "${jq_query}" $downloaded_manifest)
+    print_success "Found URL: $url"
+    echo ""
+
+    # Download and extract the Android SDK build tools
+    download_and_extract "$nm" "$url" "$mdir" "$mdir/$dname.tar.xz"
+}
+
 arch=$(uname -m)
 install_dir=$HOME
-sdk_version=33.0.1
+sdkver_org=33.0.3
 with_cmdline=false
 jdk_version=17
 manifest="https://raw.githubusercontent.com/AndroidIDEOfficial/androidide-tools/main/manifest.json"
@@ -124,7 +140,7 @@ while getopts "uch?i:s:j:m:a:p:l:" opt; do
       ;;
     i) install_dir=$OPTARG
       ;;
-    s) sdk_version=$OPTARG
+    s) sdkver_org=$OPTARG
       ;;
     c) with_cmdline=true
       ;;
@@ -152,11 +168,11 @@ if [ "$arch" = "armv8l" ]; then
     arch="arm"
 fi
 
-sdk_version="_${sdk_version//'.'/'_'}"
+sdk_version="_${sdkver_org//'.'/'_'}"
 
 echo "------------------------------------------"
 echo "Installation directory    : ${install_dir}"
-echo "SDK version               : ${sdk_version}"
+echo "SDK version               : ${sdkver_org}"
 echo "JDK version               : ${jdk_version}"
 echo "With command line tools   : ${with_cmdline}"
 echo "------------------------------------------"
@@ -191,20 +207,18 @@ curl -L -o $downloaded_manifest $manifest
 print_success "Manifest file downloaded"
 echo ""
 
-# Extract the Android SDK URL
-print_info "Extracting Android SDK URL from manifest..."
-sdk_obj=$(jq ".android_sdk | .${sdk_version} | .${arch}" $downloaded_manifest)
-sdk_url=$(echo $sdk_obj | jq -r ".sdk")
-print_success "Found SDK URL: $sdk_url"
-echo ""
+# Install the Android SDK
+download_comp "Android SDK" ".android_sdk" $install_dir "android-sdk"
 
-# Download and extract the Android SDK
-download_and_extract "Android SDK" $sdk_url $install_dir "$install_dir/android-sdk.tar.xz"
+# Install build tools
+download_comp "Android SDK Build Tools" ".build_tools | .${arch} | .${sdk_version}" "$install_dir/android-sdk" "android-sdk-build-tools"
+
+# Install platform tools
+download_comp "Android SDK Platform Tools" ".platform_tools | .${arch} | .${sdk_version}" "$install_dir/android-sdk" "android-sdk-platform-tools"
 
 if [ "$with_cmdline" = true ]; then
-    # Download and extract the Command Line tools
-    cmdline_url=$(jq -r ".android_sdk | .cmdline_tools" $downloaded_manifest)
-    download_and_extract "Command line tools" $cmdline_url "$install_dir/android-sdk" "$install_dir/cmdline_tools.tar.xz"
+    # Install the Command Line tools
+    download_comp "Command-line tools" ".cmdline_tools" "$install_dir/android-sdk" "cmdline-tools"
 fi
 
 # Check JDK version to download and install

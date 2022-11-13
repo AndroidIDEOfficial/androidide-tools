@@ -1,18 +1,36 @@
 {
-    "android_sdk": {
-        "_33_0_1": {
-            "aarch64": {
-                "sdk": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/v33.0.1/android-sdk-33.0.1-aarch64.tar.xz"
-            },
+    "android_sdk": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/sdk/android-sdk.tar.xz",
+    "cmdline_tools": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/sdk/cmdline-tools.tar.xz",
 
-            "arm": {
-                "sdk": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/v33.0.1/android-sdk-33.0.1-arm.tar.xz"
-            }
-        }, 
-        
-        "cmdline_tools": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/v33.0.1/cmdline-tools-all.tar.xz"
-    }, 
 
+    "build_tools": {
+
+        "aarch64": {
+            "_33_0_3": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/v33.0.3/build-tools-33.0.3-aarch64.tar.xz",
+            "_33_0_1": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/v33.0.1/build-tools-33.0.1-aarch64.tar.xz"
+        },
+
+        "arm" : {
+            "_33_0_3": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/v33.0.3/build-tools-33.0.3-arm.tar.xz",
+            "_33_0_1": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/v33.0.1/build-tools-33.0.1-arm.tar.xz"
+        }
+    },
+
+
+    "platform_tools": {
+
+        "aarch64": {
+            "_33_0_3": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/v33.0.3/platform-tools-33.0.3-aarch64.tar.xz",
+            "_33_0_1": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/v33.0.1/platform-tools-33.0.1-aarch64.tar.xz"
+        },
+
+        "arm": {
+            "_33_0_3": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/v33.0.3/platform-tools-33.0.3-arm.tar.xz",
+            "_33_0_1": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/v33.0.1/platform-tools-33.0.1-arm.tar.xz"
+        }
+    },
+
+    
     "jdk_11": {
         "aarch64": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/jdk-11/jdk11-aarch64.tar.xz",
         "arm": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/jdk-11/jdk11-arm.tar.xz"
