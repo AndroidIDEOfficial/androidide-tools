@@ -27,7 +27,7 @@ For testing purposes:
 
 ## Installing in AndroidIDE
 - Open the AndroidIDE terminal.
-- Start the installation process by executing : `idesetup`
+- Start the installation process by executing : `idesetup -c`
 - After you execute the command, it'll show a summary of the configuration. Type `y` to confirm the configuration and start the installation process.
 
 Once the installation is finished, the `ide-environment.properties` file will also be updated. If the file already exists, you'll be asked to confirm if you want to rewrite the properties file.
