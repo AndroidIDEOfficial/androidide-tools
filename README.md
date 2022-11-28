@@ -7,7 +7,7 @@ AndroidIDE build tools installer
 This script helps you easily install build tools in AndroidIDE.
 
 Usage:
-./idesetup -s 33.0.1 -c -j 17
+idesetup -s 33.0.1 -c -j 17
 This will install Android SDK 33.0.1 with command line tools and JDK 17.
 
 Options :
@@ -27,16 +27,8 @@ For testing purposes:
 
 ## Installing in AndroidIDE
 - Open the AndroidIDE terminal.
-- Get the installation script with :
-```bash
-wget https://raw.githubusercontent.com/AndroidIDEOfficial/androidide-build-tools/main/scripts/idesetup
-```
-- Give executable permissions to the installation script with:
-```bash
-chmod +x ./idesetup
-```
-- Start the installation process by executing the script with : `./idesetup`
-- After you execute the script, it'll show a summary of the configuration. Type `y` to confirm the configuration and start the installation process.
+- Start the installation process by executing : `idesetup`
+- After you execute the command, it'll show a summary of the configuration. Type `y` to confirm the configuration and start the installation process.
 
 Once the installation is finished, the `ide-environment.properties` file will also be updated. If the file already exists, you'll be asked to confirm if you want to rewrite the properties file.
 

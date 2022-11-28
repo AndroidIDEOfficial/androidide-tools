@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+set -eu
+
+DIR="/data/data/com.itsaky.androidide/files/"
+force=""
+out="/sdcard/androidide-backup.tar.gz"
+yes='^(y|Y|yes|Yes)$'
+
+usage() {
+cat <<- EOT
+Backup:  $0 [options]
+ -o [file]      Set the output file.
+                Defaults to "/sdcard/androidide-backup.tar.gz"
+ -F, --force    Overwrite output file if exists.
+
+Restore:  $0 -R [file]
+ -R, --restore  Restore from the input tar.gz file
+
+ -h, --help     Display this message
+EOT
+}
+
+restore() {
+    if ! [ -f $1 ]; then
+        echo "File '$1' doesn't exist."
+    fi
+    printf "\033[0;33mRestoring procedure will erase all files in AndroidIDE root directory,
+and restore AndroidIDE to backuping state. Are you sure? (y/n)\033[0m "
+    read surety
+    if ! [[ $surety =~ $yes ]]; then
+        echo "Aborting..."; exit;
+    fi
+    tar -zxf $1 -C $DIR --recursive-unlink --preserve-permissions
+}
+
+while (($# >= 1)); do
+    case $1 in
+        -h|--help)  echo -e "\nBackup/Restore AndroidIDE files with this script.\n"
+                    usage; exit 0;;
+
+        -R|--restore)   if (( $# != 2 )); then
+                            echo -e "Got invalid arguments.\n"
+                            usage; exit 1;
+                        fi
+                        restore $2; exit 0;;
+
+        -F|--force) force="true";;
+        -o|--output) out=$2; shift;;
+
+        *)  echo "Option doesn't exist : $1"
+            usage; exit 1;;
+    esac
+    shift;
+done
+
+if [[ -f $out && -z $force ]]; then
+    echo "File '$out' exists. Run with --force to overwrite file.";
+    exit 1;
+else
+    rm -f $out
+fi
+
+echo "Backuping to $out..."
+tar -zcf $out -C $DIR ./home ./usr
+printf "\033[0;32mBackup Complete.\033[0m"

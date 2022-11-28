@@ -176,7 +176,7 @@ echo "SDK version               : ${sdkver_org}"
 echo "JDK version               : ${jdk_version}"
 echo "With command line tools   : ${with_cmdline}"
 echo "------------------------------------------"
-printf "Confirm configuration ([y]es/n[o]): "
+printf "Confirm configuration ([y]es/[n]o): "
 read correct
 
 if ! [[ $correct =~ $yes ]]; then
@@ -274,5 +274,5 @@ else
     fi
 fi
 
-rm -vf $0 $downloaded_manifest
+rm -vf $downloaded_manifest
 print_success "Downloads completed. You are ready to go!"
