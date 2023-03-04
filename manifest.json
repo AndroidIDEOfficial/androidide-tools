@@ -33,6 +33,6 @@
     
     "jdk_11": {
         "aarch64": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/jdk-11/jdk11-aarch64.tar.xz",
-        "arm": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/jdk-11/jdk11-arm.tar.xz"
+        "arm": "https://github.com/AndroidIDEOfficial/androidide-tools/releases/download/jdk-11/jdk11-aarch32.tar.xz"
     }
 }
