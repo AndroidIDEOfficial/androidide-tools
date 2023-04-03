@@ -82,7 +82,7 @@ download_and_extract() {
 
     if [ "$do_download" = "true" ]; then
         print_info "Downloading $name..."
-        curl -L -o $dest $url
+        curl -L -o $dest $url  --http1.1
         print_success "$name has been downloaded."
         echo ""
     fi
