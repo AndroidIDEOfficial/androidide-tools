@@ -124,7 +124,7 @@ download_comp() {
 
 arch=$(uname -m)
 install_dir=$HOME
-sdkver_org=33.0.3
+sdkver_org=34.0.4
 with_cmdline=false
 jdk_version=17
 manifest="https://raw.githubusercontent.com/AndroidIDEOfficial/androidide-tools/main/manifest.json"
