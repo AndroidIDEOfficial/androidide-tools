@@ -38,7 +38,6 @@ print_help() {
     echo "-i   Set the installation directory. Defaults to \$HOME."
     echo "-s   Android SDK version to download."
     echo "-c   Download Android SDK with command line tools."
-    echo "-j   Choose whether to install JDK 11 or JDK 17. Please note that JDK 17 must be preferred. This option will be removed in future."
     echo "-m   Manifest file URL. Defaults to 'manifest.json' in 'androidide-tools' GitHub repository."
     echo ""
     echo "For testing purposes:"
@@ -126,7 +125,6 @@ arch=$(uname -m)
 install_dir=$HOME
 sdkver_org=34.0.4
 with_cmdline=false
-jdk_version=17
 manifest="https://raw.githubusercontent.com/AndroidIDEOfficial/androidide-tools/main/manifest.json"
 pkgm="pkg"
 pkg_curl="libcurl"
@@ -143,8 +141,6 @@ while getopts "uch?i:s:j:m:a:p:l:" opt; do
     s) sdkver_org=$OPTARG
       ;;
     c) with_cmdline=true
-      ;;
-    j) jdk_version=$OPTARG
       ;;
     m) manifest=$OPTARG
       ;;
@@ -173,7 +169,7 @@ sdk_version="_${sdkver_org//'.'/'_'}"
 echo "------------------------------------------"
 echo "Installation directory    : ${install_dir}"
 echo "SDK version               : ${sdkver_org}"
-echo "JDK version               : ${jdk_version}"
+echo "JDK version               : 17"
 echo "With command line tools   : ${with_cmdline}"
 echo "------------------------------------------"
 printf "Confirm configuration ([y]es/[n]o): "
@@ -221,34 +217,12 @@ if [ "$with_cmdline" = true ]; then
     download_comp "Command-line tools" ".cmdline_tools" "$install_dir/android-sdk" "cmdline-tools"
 fi
 
-# Check JDK version to download and install
-root_folder=$(jq -r ".jdk_11.root_folder?" $downloaded_manifest)
-if [ "$jdk_version" = "17" ]; then
-    # Install JDK 17
-    print_info "Installing package: 'openjdk-17'"
-    $pkgm install openjdk-17
-    print_info "JDK 17 has been installed."
-else
-    print_info "Extracting JDK 11 download URL..."
-    jdk_url=$(jq -r ".jdk_11.$arch" $downloaded_manifest)
-    print_success "Found JDK URL: $jdk_url"
-    echo ""
+# Install JDK 17
+print_info "Installing package: 'openjdk-17'"
+$pkgm install openjdk-17
+print_info "JDK 17 has been installed."
 
-    download_and_extract "JDK 11" $jdk_url $install_dir "$install_dir/jdk11.tar.xz"
-fi
-
-jdk_dir=$(realpath "$install_dir/jdk")
-if [ $jdk_version = "11" ] && [ ! -d $jdk_dir ]; then
-    print_err "JDK directory '$jdk_dir' does not exist. Most probably the downloaded JDK has different root folder name."
-    print_err "Cannot update ide-environment.properties"
-    print_err ""
-    print_err "You'll have to manually edit $SYSROOT/etc/ide-environment.properties file and set JAVA_HOME and ANDROID_SDK_ROOT."
-    exit 1
-fi
-
-if [ $jdk_version = "17" ]; then
-    jdk_dir="$SYSROOT/opt/openjdk"
-fi
+jdk_dir="$SYSROOT/opt/openjdk"
 
 print_info "Updating ide-environment.properties..."
 print_info "JAVA_HOME=$jdk_dir"
