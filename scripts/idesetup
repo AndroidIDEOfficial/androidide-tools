@@ -192,6 +192,7 @@ fi
 
 # Install required packages
 print_info "Installing required packages.."
+$pkgm update && $pkgm upgrade
 $pkgm install $pkg_curl jq tar
 print_success "Packages installed"
 echo ""
