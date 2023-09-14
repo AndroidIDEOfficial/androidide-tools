@@ -71,9 +71,7 @@ download_and_extract() {
     if [ -f $dest ]; then
         name=$(basename $dest)
         print_info "File ${name} already exists."
-        printf "Do you want to skip the download process? ([y]es/[n]o): "
-        read skip
-        if [[ $skip =~ $yes ]]; then
+        if is_yes "Do you want to skip the download process?"; then
             do_download=false
         fi
         echo ""
@@ -103,6 +101,19 @@ download_and_extract() {
 
     # cd into the previous working directory
     cd -
+}
+
+is_yes() {
+    msg=$1
+
+    printf "$msg ([y]es/[n]o): "
+    read ans
+
+    if [[ "$ans" =~ $yes ]]; then
+        return 0
+    fi
+
+    return 1
 }
 
 download_comp() {
@@ -166,16 +177,27 @@ fi
 
 sdk_version="_${sdkver_org//'.'/'_'}"
 
+pkgs="$pkg_curl jq tar"
+
+# Ask the user whether 'git' should be installed as well
+if is_yes "Do you want to install git?"; then
+    pkgs+=" git"
+fi
+
+# Ask the user whether 'openssh' should be installed as well
+if is_yes "Do you want to install openssh?"; then
+    pkgs+=" openssh"
+fi
+
 echo "------------------------------------------"
 echo "Installation directory    : ${install_dir}"
 echo "SDK version               : ${sdkver_org}"
 echo "JDK version               : 17"
 echo "With command line tools   : ${with_cmdline}"
+echo "Extra packages            : ${pkgs}"
 echo "------------------------------------------"
-printf "Confirm configuration ([y]es/[n]o): "
-read correct
 
-if ! [[ $correct =~ $yes ]]; then
+if ! is_yes "Confirm configuration" ; then
     print_err "Aborting..."
     exit 1
 fi
@@ -190,10 +212,13 @@ if [ ! command -v $pkgm &> /dev/null ]; then
     exit 1
 fi
 
+# Update repositories and packages
+print_info "Update packages..."
+$pkgm update && $pkgm upgrade
+
 # Install required packages
 print_info "Installing required packages.."
-$pkgm update && $pkgm upgrade
-$pkgm install $pkg_curl jq tar
+$pkgm install $pkgs
 print_success "Packages installed"
 echo ""
 
@@ -239,9 +264,7 @@ if [ ! -e $props ]; then
     printf "JAVA_HOME=$jdk_dir" > $props
     print_success "Properties file updated successfully!"
 else
-    printf "$props file already exists. Would you like to overwrite it? (y/n):"
-    read ans
-    if [[ $ans =~ $yes ]]; then
+    if is_yes "$props file already exists. Would you like to overwrite it?"; then
         printf "JAVA_HOME=$jdk_dir" > $props
         print_success "Properties file updated successfully!"
     else
