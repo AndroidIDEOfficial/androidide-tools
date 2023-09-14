@@ -12,7 +12,7 @@ Purple='\033[0;35m'
 Cyan='\033[0;36m'
 White='\033[0;37m'
 
-yes='^(y|Y|yes|Yes)$'
+yes='^[Yy][Ee]?[Ss]?$'
 
 print_info() {
     printf "${Blue}$1$Color_Off\n"
