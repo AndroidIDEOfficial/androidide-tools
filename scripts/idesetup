@@ -214,11 +214,11 @@ fi
 
 # Update repositories and packages
 print_info "Update packages..."
-$pkgm update && $pkgm upgrade
+$pkgm update && $pkgm upgrade -y
 
 # Install required packages
 print_info "Installing required packages.."
-$pkgm install $pkgs
+$pkgm install $pkgs -y
 print_success "Packages installed"
 echo ""
 
@@ -245,7 +245,7 @@ fi
 
 # Install JDK 17
 print_info "Installing package: 'openjdk-17'"
-$pkgm install openjdk-17
+$pkgm install openjdk-17 -y
 print_info "JDK 17 has been installed."
 
 jdk_dir="$SYSROOT/opt/openjdk"
