@@ -39,6 +39,7 @@ print_help() {
     echo "-s   Android SDK version to download."
     echo "-c   Download Android SDK with command line tools."
     echo "-m   Manifest file URL. Defaults to 'manifest.json' in 'androidide-tools' GitHub repository."
+    echo "-j   OpenJDK version to install. Values can be '17' or '21'"
     echo ""
     echo "For testing purposes:"
     echo "-a   CPU architecture. Extracted using 'uname -m' by default."
@@ -139,6 +140,7 @@ with_cmdline=false
 manifest="https://raw.githubusercontent.com/AndroidIDEOfficial/androidide-tools/main/manifest.json"
 pkgm="pkg"
 pkg_curl="libcurl"
+jdk_version="17"
 
 OPTIND=1
 while getopts "uch?i:s:j:m:a:p:l:" opt; do
@@ -161,6 +163,8 @@ while getopts "uch?i:s:j:m:a:p:l:" opt; do
       ;;
     l) pkg_curl=$OPTARG
       ;;
+    j) jdk_version=$OPTARG
+      ;;
   esac
 done
 
@@ -170,9 +174,15 @@ shift $((OPTIND-1))
 if [ "$arch" = "armv7l" ]; then
     arch="arm"
 fi
+
 # 64-bit CPU in 32-bit mode
 if [ "$arch" = "armv8l" ]; then
     arch="arm"
+fi
+
+if [ "$jdk_version" != "17" ] && [ "$jdk_version" != "21" ]; then
+    print_err "Invalid JDK version '$jdk_version'. Value can be '17' or '21'."
+    exit 1
 fi
 
 sdk_version="_${sdkver_org//'.'/'_'}"
@@ -192,7 +202,7 @@ fi
 echo "------------------------------------------"
 echo "Installation directory    : ${install_dir}"
 echo "SDK version               : ${sdkver_org}"
-echo "JDK version               : 17"
+echo "JDK version               : ${jdk_version}"
 echo "With command line tools   : ${with_cmdline}"
 echo "Extra packages            : ${pkgs}"
 echo "------------------------------------------"
@@ -243,10 +253,10 @@ if [ "$with_cmdline" = true ]; then
     download_comp "Command-line tools" ".cmdline_tools" "$install_dir/android-sdk" "cmdline-tools"
 fi
 
-# Install JDK 17
-print_info "Installing package: 'openjdk-17'"
-$pkgm install openjdk-17 -y
-print_info "JDK 17 has been installed."
+# Install JDK
+print_info "Installing package: 'openjdk-$jdk_version'"
+$pkgm install "openjdk-$jdk_version" -y
+print_info "JDK $jdk_version has been installed."
 
 jdk_dir="$SYSROOT/opt/openjdk"
 
