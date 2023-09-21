@@ -11,6 +11,7 @@ Blue='\033[0;34m'
 Purple='\033[0;35m'
 Cyan='\033[0;36m'
 White='\033[0;37m'
+Orange="\e[38;5;208m"
 
 yes='^[Yy][Ee]?[Ss]?$'
 
@@ -20,6 +21,10 @@ print_info() {
 
 print_err() {
     printf "${Red}$1$Color_Off\n"
+}
+
+print_warn() {
+    printf "${Orange}$1$Color_Off\n"
 }
 
 print_success() {
@@ -183,6 +188,15 @@ fi
 if [ "$jdk_version" != "17" ] && [ "$jdk_version" != "21" ]; then
     print_err "Invalid JDK version '$jdk_version'. Value can be '17' or '21'."
     exit 1
+fi
+
+if [ "$jdk_version" == "21" ]; then
+    print_warn "OpenJDK 21 support in AndroidIDE is experimental. It may or may not work properly."
+    print_warn "Also, OpenJDK 21 is only supported in Gradle v8.4 and newer. Older versions of Gradle will NOT work!"
+    if ! is_yes "Do you still want to install OpenJDK 21?"; then
+        jdk_version="17"
+        print_info="OpenJDK version has been reset to '17'"
+    fi
 fi
 
 sdk_version="_${sdkver_org//'.'/'_'}"
