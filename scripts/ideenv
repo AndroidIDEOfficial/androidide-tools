@@ -11,7 +11,7 @@ print_help() {
 }
 
 
-PROPS=@PREFIX@/etc/ide-environment.properties
+PROPS=$SYSROOT/etc/ide-environment.properties
 while getopts ":she" option; do
 	case $option in
 		s) ## Simply print the contents of the file
