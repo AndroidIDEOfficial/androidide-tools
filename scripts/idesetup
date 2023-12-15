@@ -219,6 +219,7 @@ echo "SDK version               : ${sdkver_org}"
 echo "JDK version               : ${jdk_version}"
 echo "With command line tools   : ${with_cmdline}"
 echo "Extra packages            : ${pkgs}"
+echo "CPU architecture          : ${arch}"
 echo "------------------------------------------"
 
 if ! is_yes "Confirm configuration" ; then
